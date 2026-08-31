@@ -7,7 +7,7 @@ def subtract(a, b):
 
 
 def multiply(a, b):
-    return a + b  # BUG: should multiply, not add
+    return a * b  # Fixed: now correctly multiplies
 
 
 def divide(a, b):
