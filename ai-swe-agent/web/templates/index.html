@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot" id="brand-dot"></span>
+      Agent Console
+    </div>
+    <nav class="tabs">
+      <button class="tab active" data-tab="live">Live Run</button>
+      <button class="tab" data-tab="eval">Evaluation</button>
+    </nav>
+  </header>
+
+  <section id="tab-live" class="tab-panel active">
+
+    <div class="toolbar">
+      <div class="toolbar-task">
+        <strong>Task:</strong> find the bug in <code>sample_project/</code>, fix it, verify it, commit it — no file named up front.
+      </div>
+      <div class="toolbar-controls">
+        <button id="run-btn" class="btn-primary">Run Agent</button>
+        <button id="reset-btn" class="btn-ghost">Reset Demo</button>
+      </div>
+      <div class="toolbar-status">
+        <div class="stat">
+          <span class="stat-label">branch</span>
+          <span class="stat-value mono" id="stat-branch">main</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">state</span>
+          <span class="stat-value mono" id="stat-state">idle</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">tests</span>
+          <span class="stat-value mono" id="stat-tests">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-track" id="progress-track" hidden>
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <div class="workspace">
+
+      <aside class="file-panel">
+        <div class="panel-heading">sample_project/</div>
+        <ul class="file-list" id="file-list"></ul>
+      </aside>
+
+      <div class="code-panel">
+        <div class="code-panel-heading">
+          <span id="code-filename">select a file</span>
+          <span class="badge" id="code-badge" hidden>modified this run</span>
+        </div>
+        <pre class="code-view"><code id="code-content" class="language-python"># Select a file on the left to view it,
+# or press "Run Agent" and watch it open automatically
+# as the agent reads and edits files.</code></pre>
+      </div>
+
+      <div class="feed-panel">
+        <div class="panel-heading">Activity</div>
+        <div class="feed" id="live-feed">
+          <p class="feed-empty">Press "Run Agent" to watch it work, live.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="tab-eval" class="tab-panel">
+    <div class="eval-top panel">
+      <div>
+        <h2>Evaluation Suite</h2>
+        <p class="task-desc">Runs the agent against 3 independent bug scenarios, fresh each time, and scores it against the real test suite — never trusting the agent's own claim of success.</p>
+      </div>
+      <button id="eval-run-btn" class="btn-primary">Run Evaluation Suite</button>
+    </div>
+
+    <div class="scenario-grid" id="scenario-grid">
+      <div class="scenario-card" data-scenario="config_key">
+        <div class="scenario-name">config_key</div>
+        <div class="scenario-meta">cross-file · KeyError</div>
+        <div class="scenario-status">not run</div>
+      </div>
+      <div class="scenario-card" data-scenario="inventory">
+        <div class="scenario-name">inventory</div>
+        <div class="scenario-meta">cross-file · AttributeError</div>
+        <div class="scenario-status">not run</div>
+      </div>
+      <div class="scenario-card" data-scenario="playlist">
+        <div class="scenario-name">playlist</div>
+        <div class="scenario-meta">single-file · AssertionError</div>
+        <div class="scenario-status">not run</div>
+      </div>
+    </div>
+
+    <div class="summary panel" id="eval-summary" hidden>
+      <div class="summary-stat">
+        <div class="summary-value" id="summary-passrate">—</div>
+        <div class="summary-label">scenarios passed</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-value" id="summary-iterations">—</div>
+        <div class="summary-label">avg iterations</div>
+      </div>
+      <div class="summary-stat">
+        <div class="summary-value" id="summary-time">—</div>
+        <div class="summary-label">avg time (s)</div>
+      </div>
+    </div>
+
+    <div class="feed" id="eval-feed">
+      <p class="feed-empty">Press "Run Evaluation Suite" to score the agent against all 3 scenarios.</p>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

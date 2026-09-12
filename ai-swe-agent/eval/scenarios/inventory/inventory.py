@@ -1,15 +1,14 @@
-from typing import List
 from models import Product
 
 
-def calculate_total(products: List[Product]) -> float:
+def calculate_total(products: list[Product]) -> float:
     """Calculate the total value of all inventory."""
     total = 0
     for p in products:
-        total += p.unit_price * p.quantity
+        total += p.price * p.quantity  # BUG: Product has no 'price' attribute
     return total
 
 
-def most_valuable(products: List[Product]) -> Product:
+def most_valuable(products: list[Product]) -> Product:
     """Return the product with the highest total value (price * quantity)."""
     return max(products, key=lambda p: p.unit_price * p.quantity)
